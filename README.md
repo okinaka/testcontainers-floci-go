@@ -75,7 +75,7 @@ import (
 func TestS3(t *testing.T) {
     ctx := context.Background()
 
-    fc, err := floci.NewFlociContainer().Start(ctx)
+    fc, err := floci.Run(ctx)
     if err != nil {
         t.Fatal(err)
     }
@@ -151,7 +151,7 @@ var fc *floci.StartedFlociContainer
 func TestMain(m *testing.M) {
     ctx := context.Background()
     var err error
-    fc, err = floci.NewFlociContainer().Start(ctx)
+    fc, err = floci.Run(ctx)
     if err != nil {
         panic(err)
     }
@@ -174,6 +174,9 @@ func TestMain(m *testing.M) {
 Each AWS service emulated by Floci can be configured individually using a typed config struct. Pass the struct to the
 corresponding `With*Config` method; unset fields keep their defaults. See the
 [Floci documentation](https://floci.io/floci/services/) for the full list of supported services.
+
+`floci.Run(ctx)` starts Floci with the default configuration. To change it, build the container with
+`floci.NewFlociContainer()`, chain the `With*` methods, and call `Start(ctx)`, as in the examples below.
 
 ### Per-service examples
 
